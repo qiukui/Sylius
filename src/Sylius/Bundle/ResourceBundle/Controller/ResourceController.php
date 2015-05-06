@@ -185,13 +185,16 @@ class ResourceController extends FOSRestController
         }
 
         $parameters = new GridParameters($request->query->all());
+
         $gridView = $gridViewBuilder->build($grid, $parameters);
 
         $view = $this
             ->view()
             ->setTemplate($this->config->getTemplate('index.html'))
-            ->setTemplateVar('grid')
-            ->setData($gridView)
+            ->setData(array(
+                'grid'          => $gridView,
+                'configuration' => $this->config
+            ))
         ;
 
         return $this->handleView($view);
